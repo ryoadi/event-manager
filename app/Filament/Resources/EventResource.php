@@ -2,17 +2,16 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\EventResource\Pages;
-use App\Filament\Resources\EventResource\RelationManagers;
-use App\Models\Event;
 use Filament\Forms;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
+use App\Models\Event;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
+use Filament\Resources\Resource;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Filters\MultiSelectFilter;
+use App\Filament\Resources\EventResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class EventResource extends Resource
@@ -36,12 +35,24 @@ class EventResource extends Resource
             ->columns([
                 TextColumn::make('name')
                     ->searchable(),
+                TextColumn::make('status')
+                    ->badge(),
             ])
             ->filters([
-                //
+                MultiSelectFilter::make('status')
+                    ->options(Event\Status::class),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('publish')
+                    ->action(fn(Event $event) => $event->publish())
+                    ->authorize('publish', Event::class),
+                Tables\Actions\Action::make('republish')
+                    ->action(fn(Event $event) => $event->publish())
+                    ->authorize('republish', Event::class),
+                Tables\Actions\Action::make('archive')
+                    ->action(fn(Event $event) => $event->archive())
+                    ->authorize('archive', Event::class),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
