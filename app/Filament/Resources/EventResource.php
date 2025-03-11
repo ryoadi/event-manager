@@ -35,6 +35,7 @@ class EventResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->searchable(),
             ])
             ->filters([
                 //
