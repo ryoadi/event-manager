@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
 use Filament\Tables;
 use App\Models\Event;
 use Filament\Forms\Form;
@@ -25,7 +26,12 @@ class EventResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
-                    ->required()
+                    ->required(),
+                FileUpload::make('logo')
+                    ->image()
+                    ->imageEditor()
+                    ->directory('events')
+                    ->downloadable(),
             ]);
     }
 

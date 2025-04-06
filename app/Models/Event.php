@@ -17,6 +17,7 @@ class Event extends Model
     protected $fillable = [
         'name',
         'status',
+        'logo',
     ];
 
     protected $casts = [
