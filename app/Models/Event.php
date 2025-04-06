@@ -4,15 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * @property string $name
  * @property Event\Status $status
 */
-class Event extends Model
+class Event extends Model implements HasMedia
 {
     /** @use HasFactory<\Database\Factories\EventFactory> */
     use HasFactory;
+    use InteractsWithMedia;
 
     protected $fillable = [
         'name',
@@ -36,5 +40,11 @@ class Event extends Model
         $this->update([
             'status' => Event\Status::ARCHIVED,
         ]);
+    }
+
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this->addMediaConversion('webp')
+            ->format('webp');
     }
 }

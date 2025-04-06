@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Tables;
 use App\Models\Event;
 use Filament\Forms\Form;
@@ -32,6 +33,15 @@ class EventResource extends Resource
                     ->imageEditor()
                     ->directory('events')
                     ->downloadable(),
+                SpatieMediaLibraryFileUpload::make('gallery')
+                    ->image()
+                    ->columnSpanFull()
+                    ->directory('events/gallery')
+                    ->downloadable()
+                    ->multiple()
+                    ->reorderable()
+                    ->responsiveImages()
+                    ->conversion('webp'),
             ]);
     }
 
