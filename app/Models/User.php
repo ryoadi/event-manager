@@ -5,8 +5,10 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Filament\Panel;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Event\Organizer;
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements FilamentUser
@@ -51,5 +53,10 @@ class User extends Authenticatable implements FilamentUser
     function canAccessPanel(Panel $panel): bool
     {
         return true;
+    }
+
+    public function organizers(): BelongsToMany
+    {
+        return $this->belongsToMany(Organizer::class);
     }
 }
