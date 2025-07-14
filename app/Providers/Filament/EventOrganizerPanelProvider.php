@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Models\Event\Organizer;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -51,6 +52,7 @@ class EventOrganizerPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->tenant(Organizer::class);
     }
 }

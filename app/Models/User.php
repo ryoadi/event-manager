@@ -3,15 +3,18 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Filament\Models\Contracts\HasTenants;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Event\Organizer;
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Collection;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable implements FilamentUser, HasTenants
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -59,4 +62,15 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->belongsToMany(Organizer::class);
     }
+
+    public function canAccessTenant(Model $tenant): bool
+    {
+        return $this->organizers()->whereKey($tenant)->exists();
+    }
+
+    public function getTenants(Panel $panel): array|Collection
+    {
+        return $this->organizers;
+    }
+
 }
