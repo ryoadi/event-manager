@@ -53,6 +53,8 @@ class EventOrganizerPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->tenant(Organizer::class);
+            ->tenant(Organizer::class)
+            ->tenantRegistration(RegisterOrganizer::class)
+            ->tenantProfile(EditOrganizer::class);
     }
 }
