@@ -2,6 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\EventOrganizer\Pages\EditOrganizer;
+use App\Filament\EventOrganizer\Pages\RegisterOrganizer;
 use App\Models\Event\Organizer;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -26,6 +28,8 @@ class EventOrganizerPanelProvider extends PanelProvider
         return $panel
             ->id('event-organizer')
             ->path('event-organizer')
+            ->login()
+            ->registration()
             ->colors([
                 'primary' => Color::Amber,
             ])

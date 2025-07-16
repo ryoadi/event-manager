@@ -17,7 +17,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('organizers_users', function (Blueprint $table) {
+        Schema::create('organizer_user', function (Blueprint $table) {
             $table->foreignId('user_id')->constrained();
             $table->foreignId('organizer_id')->constrained();
         });
